@@ -1,0 +1,9 @@
+internal working of arrayList:: unlike a regular array which has a fixed size .
+an arraylist can grow and shrink as elements are added or removed
+this dynamic resizing is achieved by creating a new array when the  current array is full and copying the elements to the new array.
+
+interally the AL is impl as an array of eobject reference when you add elemenst to an AL
+you are essentillay storing these elemets in the internal array
+
+Al default capacity is 10.ie size of the array.
+time 12
