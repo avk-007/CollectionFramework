@@ -1,0 +1,79 @@
+internal working of arrayList::
+unlike a regular array which has a fixed size .
+an arraylist can grow and shrink as elements are added or removed
+this dynamic resizing is achieved by creating a new array when the  current array is full and copying the elements to the new array.
+
+internally the AL is impl as an array of object reference when you add element to an AL
+you are essentially storing these elements in the internal array
+
+Al default capacity is 10. ie size of the array,capacity means how much object it can store
+
+AL list me array hi hota hai.
+
+adding element what happen when:->
+check capacity:
+resize if necessary
+add the new element: size will increment
+
+resizing:->>
+initial cap:10
+growth factor:1.5 times the old array
+copying elements: all elements from old copy to new array. with time complexity: O(n)
+
+remove elements::
+check bounds: check index is valid or within the range
+remove the element: element is removed.
+reduce size:decrement by 1.
+
+
+Common Implementations::
+ArrayList
+LinkedList
+Vector (legacy)
+Stack (extends Vector)
+
+----------------------------------------------------
+| Property           | Description                 |
+| ------------------ | --------------------------- |
+| Order              | Maintains insertion order   |
+| Duplicates         | Allowed                     |
+| Null Elements      | Allowed                     |
+| Index-based Access | Yes                         |
+| Thread-Safety      | Only Vector is synchronized |
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+| Feature / Aspect                      | **ArrayList**                                | **LinkedList**                                             | **Vector**                       | **Stack**                        |
+| ------------------------------------- | -------------------------------------------- | ---------------------------------------------------------- | -------------------------------- | -------------------------------- |
+| **Package**                           | `java.util`                                  | `java.util`                                                | `java.util`                      | `java.util`                      |
+| **Underlying Data Structure**         | Dynamic array                                | Doubly linked list                                         | Dynamic array                    | Dynamic array (extends Vector)   |
+| **Order Maintained**                  | Yes (insertion order)                        | Yes (insertion order)                                      | Yes (insertion order)            | Yes (insertion order)            |
+| **Duplicates Allowed**                | Yes                                          | Yes                                                        | Yes                              | Yes                              |
+| **Null Values Allowed**               | Yes                                          | Yes                                                        | Yes                              | Yes                              |
+| **Thread-Safe**                       | No                                           | No                                                         | Yes (synchronized)               | Yes (synchronized)               |
+| **Performance (Search)**              | Fast — `O(1)` average for index-based access | Slow — `O(n)`                                              | Fast — `O(1)`                    | Fast — `O(1)`                    |
+| **Performance (Insertion at End)**    | Fast — `O(1)` amortized                      | Fast — `O(1)`                                              | Slower — `O(1)` but synchronized | Slower — `O(1)` but synchronized |
+| **Performance (Insertion in Middle)** | Slow — `O(n)`                                | Fast — `O(1)` if node known, else `O(n)`                   | Slow — `O(n)`                    | Slow — `O(n)`                    |
+| **Performance (Deletion)**            | Slow — `O(n)`                                | Fast — `O(1)` if node known, else `O(n)`                   | Slow — `O(n)`                    | Slow — `O(n)`                    |
+| **Random Access**                     | Supported (via index)                        | Not efficient                                              | Supported                        | Supported                        |
+| **Memory Usage**                      | Less (array overhead)                        | More (node pointers)                                       | More (sync overhead)             | More (sync overhead)             |
+| **Best Use Case**                     | Frequent read operations                     | Frequent insert/delete operations                          | Thread-safe array list           | Stack (LIFO) operations          |
+| **Synchronization**                   | Not synchronized                             | Not synchronized                                           | Fully synchronized               | Fully synchronized               |
+| **Iteration Speed**                   | Fast                                         | Slower                                                     | Slower                           | Slower                           |
+| **Special Methods**                   | -                                            | `addFirst()`, `addLast()`, `removeFirst()`, `removeLast()` | `capacity()`, `trimToSize()`     | `push()`, `pop()`, `peek()`      |
+| **Introduced In**                     | JDK 1.2                                      | JDK 1.2                                                    | JDK 1.0                          | JDK 1.0                          |
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+| Operation             | Time Complexity      |
+| --------------------- | -------------------- |
+| `get(index)`          | **O(1)**             |
+| `set(index, element)` | **O(1)**             |
+| `add(element)`        | **O(1)** (amortized) |
+| `add(index, element)` | **O(n)**             |
+| `remove(index)`       | **O(n)**             |
+| `remove(object)`      | **O(n)**             |
+| `contains(object)`    | **O(n)**             |
+| `size()`              | **O(1)**             |
+| Iteration             | **O(n)**             |
