@@ -1,0 +1,3 @@
+internal working of hashmap::
+
+key,value,bucket,hashFunction

@@ -1,0 +1,74 @@
+**CopyOnWriteArrayList** in Java:
+### 1. **Definition**
+A **thread-safe variant** of `ArrayList` where all mutative operations (`add`, `set`, `remove`) make a **fresh copy** of the underlying array.
+Located in `java.util.concurrent`.
+
+### 2. **Class Declaration**
+
+```java
+public class CopyOnWriteArrayList<E>
+    implements List<E>, RandomAccess, Cloneable, Serializable
+```
+
+### 3. **Internal Working**
+
+* Maintains a **separate copy** of the array for every write operation.
+* **Read operations** (like `get`, `iterator`, `contains`) occur on a **snapshot** of the array — no locks needed.
+* Ensures **safe iteration** without `ConcurrentModificationException`.
+
+### 4. **When to Use**
+
+* When **reads far outnumber writes**.
+* When **iteration must be safe** even during concurrent modifications.
+* Common in **multi-threaded** read-heavy environments (e.g., caches, listener lists).
+
+### 5. **Performance Characteristics**
+
+| Operation                        | Complexity     | Notes                                |
+| -------------------------------- | -------------- | ------------------------------------ |
+| Read (`get`, `size`, `contains`) | O(1)           | No locking                           |
+| Write (`add`, `set`, `remove`)   | O(n)           | Copies array                         |
+| Iteration                        | Snapshot-based | No `ConcurrentModificationException` |
+| Thread Safety                    | Yes            | Internally uses `volatile` array     |
+
+### 6. **Common Methods**
+
+```java
+CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<>();
+list.add(1);
+list.add(2);
+list.add(3);
+
+for (int n : list) {        // safe iteration even if list changes
+    System.out.println(n);
+}
+
+list.remove(Integer.valueOf(2));
+System.out.println(list);   // [1, 3]
+``
+
+### 7. **Important Notes**
+
+* **Snapshot iterator** → does **not reflect modifications** made after iteration starts.
+* Higher **memory cost** due to array copies.
+* Slower for frequent writes.
+* No `null` elements allowed (throws `NullPointerException`).
+
+
+### 8. **Comparison with ArrayList**
+
+| Feature            | ArrayList       | CopyOnWriteArrayList        |
+| ------------------ | --------------- | --------------------------- |
+| Thread-safe        | No              | Yes                         |
+| Iteration safety   | No              | Yes                         |
+| Modification speed | Fast            | Slow                        |
+| Read performance   | Fast            | Very fast                   |
+| Use case           | Single-threaded | Multi-threaded (read-heavy) |
+
+
+### 9. **Alternatives**
+
+* `Collections.synchronizedList()` — simple locking wrapper
+* `ConcurrentLinkedQueue` — for non-indexed concurrent lists
+* `CopyOnWriteArraySet` — similar concept for sets
+

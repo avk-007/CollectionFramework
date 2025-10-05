@@ -1,0 +1,37 @@
+structure clear:
+
+Iterable
+│
+└── Collection
+     ├── List
+     │    ├── ArrayList
+     │    ├── LinkedList
+     │    ├── Vector
+     │    ├── Stack
+     │    └── CopyOnWriteArrayList
+     │
+     ├── Set
+     │    ├── HashSet
+     │    ├── LinkedHashSet
+     │    ├── TreeSet
+     │    ├── EnumSet
+     │    ├── ConcurrentSkipListSet
+     │    ├── SortedSet
+     │    └── CopyOnWriteArraySet
+     │
+     └── Queue
+          ├── LinkedList
+          ├── PriorityQueue
+          ├── Deque
+          │    ├── ArrayDeque
+          │    ├── LinkedList
+          │    └── ConcurrentLinkedDeque
+          │
+          ├── BlockingQueue
+          │    ├── ArrayBlockingQueue
+          │    ├── LinkedBlockingQueue
+          │    ├── PriorityBlockingQueue
+          │    ├── SynchronousQueue
+          │    └── DelayQueue
+          │
+          └── ConcurrentLinkedQueue

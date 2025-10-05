@@ -1,0 +1,35 @@
+Definition
+A linked list is a linear data structure where elements (nodes) are connected using pointers or references.
+
+2. Structure
+Each Node contains:
+
+Data → actual value
+
+Next(pointer) → reference to the next node
+
+For Doubly Linked List, a node also has:
+Prev → reference to the previous node //starting ending null
+
+| Operation       | Singly Linked List          | Doubly Linked List |
+| --------------- | --------------------------- | ------------------ |
+| Insert at head  | O(1)                        | O(1)               |
+| Insert at tail  | O(n) (unless tail ref kept) | O(1)               |
+| Delete node     | O(n)                        | O(n)               |
+| Search          | O(n)                        | O(n)               |
+| Access by index | O(n)                        | O(n)               |
+
+common methods::
+LinkedList<Integer> list = new LinkedList<>();
+list.add(10);
+list.addFirst(5);
+list.addLast(20);
+list.removeFirst();
+list.removeLast();
+list.getFirst();
+list.getLast();
+
+Use Cases
+Implement stacks, queues, or deques
+When frequent insert/delete operations are needed
+When size of data changes dynamically

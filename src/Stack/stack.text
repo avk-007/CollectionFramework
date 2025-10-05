@@ -1,0 +1,83 @@
+stacks extends vector
+//eg books in stacks  ..lifo principle
+
+Key points about **Stack** in Java:
+---
+### 1. **Definition**
+`Stack` is a **Last-In-First-Out (LIFO)** data structure.
+Last element added → first one removed.
+
+---
+### 2. **Package**
+
+Located in `java.util`.
+Class declaration:
+
+```java
+public class Stack<E> extends Vector<E>
+```
+---
+### 3. **Type**
+
+* Legacy class (extends `Vector`)
+* Synchronized → thread-safe but slower than modern alternatives
+* Uses dynamic array internally
+
+---
+### 4. **Core Operations**
+
+| Method             | Description                               | Time Complexity |
+| ------------------ | ----------------------------------------- | --------------- |
+| `push(E item)`     | Insert element on top                     | O(1)            |
+| `pop()`            | Remove and return top element             | O(1)            |
+| `peek()`           | Return top element without removing       | O(1)            |
+| `empty()`          | Check if stack is empty                   | O(1)            |
+| `search(Object o)` | Returns 1-based position from top (or -1) | O(n)            |
+
+---
+### 5. **Example**
+
+```java
+import java.util.*;
+
+public class StackExample {
+    public static void main(String[] args) {
+        Stack<Integer> stack = new Stack<>();
+
+        stack.push(10);
+        stack.push(20);
+        stack.push(30);
+
+        System.out.println(stack.peek()); // 30
+        System.out.println(stack.pop());  // 30
+        System.out.println(stack);        // [10, 20]
+    }
+}
+```
+---
+
+### 6. **Key Characteristics**
+
+* LIFO order
+* Allows `null` values
+* Thread-safe (inherited from `Vector`)
+* Slower due to synchronization
+---
+### 7. **Drawbacks**
+
+* Legacy (introduced in JDK 1.0)
+* Should generally be replaced by:
+
+  * `Deque` (e.g., `ArrayDeque`) for single-threaded use
+  * `ConcurrentLinkedDeque` for multi-threaded use
+---
+### 8. **Modern Alternative**
+
+```java
+Deque<Integer> stack = new ArrayDeque<>();
+stack.push(10);
+stack.push(20);
+System.out.println(stack.pop()); // 20
+```
+`ArrayDeque` is **faster**, **non-synchronized**, and recommended for new code.
+

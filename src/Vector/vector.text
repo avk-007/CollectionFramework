@@ -1,0 +1,35 @@
+Vector is a dynamic array that grows or shrinks automatically when elements are added or removed.
+Located in java.util package.
+
+2. Type
+Legacy class (introduced in JDK 1.0)
+Implements List, RandomAccess, Cloneable, and Serializable
+Synchronized (thread-safe, but slower than ArrayList)
+
+3. Internal Working
+
+Stores elements in a dynamic array
+When capacity is full, it increases by 100% (doubles its size)
+
+4. Constructors
+Vector()                          // default capacity 10
+Vector(int initialCapacity)
+Vector(int initialCapacity, int capacityIn
+methods::
+
+add(E e)             // add element
+addElement(E e)      // legacy equivalent of add()
+get(int index)
+set(int index, E e)
+remove(int index)
+size()
+capacity()
+clear()
+contains(Object o)
+firstElement()
+lastElement()
+elements()           // returns Enumeration<E>
+
+When to Use::
+When thread safety is needed without external synchronization
+For legacy systems where Vector is already used
