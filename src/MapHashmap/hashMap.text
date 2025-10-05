@@ -1,3 +1,81 @@
 internal working of hashmap::
 
 key,value,bucket,hashFunction
+
+**How data is stored in HashMap (step-by-step points):**
+---
+1. **HashMap Structure**
+
+   * Internally uses an array of **buckets** (each bucket stores nodes).
+   * Each **Node** contains: `key`, `value`, `hash`, and `next` (reference to next node).
+---
+2. **Default Configuration**
+   * Default **capacity** = 16
+   * Default **load factor** = 0.75
+   * So resize happens when `size > 16 × 0.75 = 12`.
+
+---
+3. **put(key, value) process**
+   1. Compute `hashCode()` of key.
+   2. Apply hash function → `(hash ^ (hash >>> 16))` for better distribution.
+   3. Find **bucket index** using `(n - 1) & hash`.
+   4. Check if the bucket is **empty**:
+      * If yes → create a new node and insert.
+      * If no → go to next step.
+   5. Compare hash and `equals()` with existing nodes:
+
+      * If same key → **update value**.
+      * If different → **add new node** at the end (collision).
+   6. If bucket size > 8 and map capacity ≥ 64 → **convert list to tree** (red-black tree).
+   7. After insertion, check size:
+
+      * If `size > capacity × loadFactor` → **resize** (double capacity) and **rehash** entries.
+---
+4. **Collision Handling**
+
+   * Multiple keys can map to the same index.
+   * Collisions handled by **linked list** (or **tree** if many collisions).
+
+---
+5. **get(key) process**
+
+   1. Compute hash of the key.
+   2. Calculate index `(n - 1) & hash`.
+   3. Traverse bucket at that index:
+
+      * Compare hash and `equals()` for key.
+   4. If found → return value, else return `null`.
+---
+6. **resize()**
+
+   * When size exceeds threshold.
+   * Creates new array (double size).
+   * Rehashes all entries (recomputes bucket index for each).
+---
+7. **Important Facts**
+
+   * Keys must implement `hashCode()` and `equals()` correctly.
+   * `null` key allowed (always stored in bucket[0]).
+   * Insertion order is **not maintained**.
+   * Average time complexity: **O(1)** for `put()` and `get()`.
+
+Average Case (with good hash distribution)::
+----------------------------------------------------------------------------------------
+| Operation                         | Time Complexity | Description                     |
+| --------------------------------- | --------------- | ------------------------------- |
+| `put(key, value)`                 | **O(1)**        | Insert or update key-value pair |
+| `get(key)`                        | **O(1)**        | Retrieve value by key           |
+| `remove(key)`                     | **O(1)**        | Delete entry by key             |
+| `containsKey(key)`                | **O(1)**        | Check if key exists             |
+| `containsValue(value)`            | **O(n)**        | Must scan all entries           |
+| `size()`                          | **O(1)**        | Returns count of entries        |
+| Iteration (keys, values, entries) | **O(n)**        | Visits all elements             |
+----------------------------------------------------------------------------------------
+Worst Case (many hash collisions)::
+----------------------------------------------------------------------
+| Operation         | Time Complexity | Description                  |
+| ----------------- | --------------- | ---------------------------- |
+| `put(key, value)` | **O(n)**        | All elements in one bucket   |
+| `get(key)`        | **O(n)**        | Must search bucket list/tree |
+| `remove(key)`     | **O(n)**        | Must search bucket list/tree |
+----------------------------------------------------------------------

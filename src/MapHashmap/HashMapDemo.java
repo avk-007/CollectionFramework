@@ -45,7 +45,7 @@ public class HashMapDemo {
 
         }
 
-        String remove = hashMap.remove(2);
+        String remove = hashMap.remove(2);//O(1)
         String remove1 = String.valueOf(hashMap.remove(2,"sumit"));
         System.out.println(hashMap);
 
