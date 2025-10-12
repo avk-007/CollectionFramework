@@ -3,55 +3,233 @@ structure clear:
 Iterable
 │
 └── Collection
-     ├── List
+     │
+     ├── List  → Ordered, allows duplicates
+     │
      │    ├── ArrayList
+     │    │     • Backed by resizable array
+     │    │     • Use when frequent random access, rare insert/delete
+     │    │     • Time: get() O(1), add() amortized O(1), remove(index) O(n)
+     │    │     • Space: dynamic array, grows by 50%
+     │    │     • Best for: Read-heavy lists, random access
+     │
      │    ├── LinkedList
+     │    │     • Doubly-linked nodes
+     │    │     • Use when frequent insert/remove at ends or middle
+     │    │     • Time: get(index) O(n), add/remove at ends O(1)
+     │    │     • Space: O(n) + node overhead
+     │    │     • Best for: Queues, Deques, iterative processing
+     │
      │    ├── Vector
+     │    │     • Legacy synchronized ArrayList
+     │    │     • Time: O(1) for access, slower due to sync
+     │    │     • Space: grows 100% when full
+     │    │     • Best for: Legacy code needing thread-safe List
+     │
      │    ├── Stack
+     │    │     • Extends Vector; LIFO
+     │    │     • Time: push/pop O(1)
+     │    │     • Use Deque (ArrayDeque) instead — faster
+     │    │     • Best for: Legacy stack usage
+     │
      │    └── CopyOnWriteArrayList
+     │          • Thread-safe, uses copy on write
+     │          • Time: read O(1), write O(n)
+     │          • Space: full copy on modification
+     │          • Best for: Read-heavy, low-write concurrent scenarios
      │
-     ├── Set
+     ├── Set  → Unique elements, no duplicates
+     │
      │    ├── HashSet
-     │    ├── LinkedHashSet
-     │    ├── TreeSet
-     │    ├── EnumSet
-     │    ├── ConcurrentSkipListSet
-     │    ├── SortedSet
-     │    └── CopyOnWriteArraySet
+     │    │     • Backed by HashMap
+     │    │     • Unordered, allows one null
+     │    │     • Time: add/remove/contains O(1) avg, O(n) worst
+     │    │     • Space: O(n)
+     │    │     • Best for: Fast lookup, no order needed
      │
-     └── Queue
-          ├── LinkedList
-          ├── PriorityQueue
-          ├── Deque
-          │    ├── ArrayDeque
-          │    ├── LinkedList
-          │    └── ConcurrentLinkedDeque
+     │    ├── LinkedHashSet
+     │    │     • Maintains insertion order
+     │    │     • Time: O(1) for basic ops
+     │    │     • Space: O(n)
+     │    │     • Best for: Predictable iteration order
+     │
+     │    ├── TreeSet
+     │    │     • Sorted, Red-Black tree
+     │    │     • Time: O(log n)
+     │    │     • Space: O(n)
+     │    │     • Best for: Sorted sets, range queries
+     │
+     │    ├── EnumSet
+     │    │     • Specialized for Enum keys, internally bit-vector
+     │    │     • Time: O(1)
+     │    │     • Space: O(1)
+     │    │     • Best for: Fast enum collections
+     │
+     │    ├── ConcurrentSkipListSet
+     │    │     • Thread-safe sorted set (skip list)
+     │    │     • Time: O(log n)
+     │    │     • Space: O(n)
+     │    │     • Best for: Concurrent sorted data
+     │
+     │    ├── SortedSet
+     │    │     • Interface, implemented by TreeSet
+     │    │     • Defines sorting behavior
+     │
+     │    └── CopyOnWriteArraySet
+     │          • Thread-safe, built on CopyOnWriteArrayList
+     │          • Time: read O(1), write O(n)
+     │          • Space: duplicate copy on modification
+     │          • Best for: Read-heavy, small concurrent sets
+     │
+     └── Queue  → FIFO by default (except PriorityQueue)
           │
-          ├── BlockingQueue
+          ├── LinkedList
+          │     • Implements Queue & Deque
+          │     • Time: add/remove O(1)
+          │     • Space: O(n)
+          │     • Best for: Simple queues, stacks, deques
+          │
+          ├── PriorityQueue
+          │     • Heap-based, orders by priority
+          │     • Time: offer/poll O(log n), peek O(1)
+          │     • Space: O(n)
+          │     • Best for: Scheduling, priority tasks
+          │
+          ├── Deque  → Double-ended queue
+          │    ├── ArrayDeque
+          │    │     • Resizable circular array
+          │    │     • Time: add/remove both ends O(1)
+          │    │     • Space: O(n)
+          │    │     • Best for: Replacement of Stack or Queue
+          │    │
+          │    ├── LinkedList
+          │    │     • Also implements Deque
+          │    │     • Time: add/remove O(1)
+          │    │     • Space: O(n)
+          │    │     • Best for: Flexible queue with bidirectional ops
+          │    │
+          │    └── ConcurrentLinkedDeque
+          │          • Lock-free thread-safe Deque
+          │          • Time: O(1)
+          │          • Space: O(n)
+          │          • Best for: Concurrent producer-consumer queues
+          │
+          │
+          ├── BlockingQueue (java.util.concurrent)
           │    ├── ArrayBlockingQueue
+          │    │     • Fixed capacity, bounded FIFO
+          │    │     • Time: O(1)
+          │    │     • Space: O(n)
+          │    │     • Best for: Bounded producer-consumer patterns
+          │    │
           │    ├── LinkedBlockingQueue
+          │    │     • Linked nodes, optionally bounded
+          │    │     • Time: O(1)
+          │    │     • Space: O(n)
+          │    │     • Best for: Concurrent pipelines
+          │    │
           │    ├── PriorityBlockingQueue
+          │    │     • Unbounded, ordered by priority
+          │    │     • Time: offer/poll O(log n)
+          │    │     • Space: O(n)
+          │    │     • Best for: Concurrent prioritized tasks
+          │    │
           │    ├── SynchronousQueue
+          │    │     • No internal capacity; each insert waits for remove
+          │    │     • Time: O(1)
+          │    │     • Space: O(1)
+          │    │     • Best for: Thread handoff, exchange mechanisms
+          │    │
           │    └── DelayQueue
+          │          • Time-based scheduling queue
+          │          • Time: poll O(log n)
+          │          • Space: O(n)
+          │          • Best for: Delayed/scheduled tasks
           │
           └── ConcurrentLinkedQueue
+                • Lock-free, thread-safe, unbounded
+                • Time: O(1)
+                • Space: O(n)
+                • Best for: High-performance concurrent message passing
+
+| Category                    | Best Choice               | When to Use                   | Complexity |
+| --------------------------- | ------------------------- | ----------------------------- | ---------- |
+| Random access list          | **ArrayList**             | Frequent read, rare insert    | O(1) get   |
+| Frequent inserts/deletes    | **LinkedList**            | Queue/stack style ops         | O(1) ends  |
+| Unique elements unordered   | **HashSet**               | Fast lookup, no order         | O(1) avg   |
+| Unique elements ordered     | **LinkedHashSet**         | Maintain insertion order      | O(1)       |
+| Sorted elements             | **TreeSet**               | Need natural/comparator order | O(log n)   |
+| Thread-safe read-heavy list | **CopyOnWriteArrayList**  | Many readers, few writers     | O(1) read  |
+| Thread-safe queue           | **ConcurrentLinkedQueue** | Non-blocking queue            | O(1)       |
+| Blocking bounded queue      | **ArrayBlockingQueue**    | Producer-consumer             | O(1)       |
+| Priority-based queue        | **PriorityQueue**         | Ordered tasks                 | O(log n)   |
+
 
  ----------------------------------------------------------------------------------------------------------------
-                        ┌────────────────────┐
-                        │     java.util.Map  │  <-- Interface (K,V)
-                        └────────┬───────────┘
-                                 │
-          ┌──────────────┬───────┴─────────┬──────────────┐
-          │              │                 │              │
- ┌────────▼──────┐ ┌─────▼────────┐ ┌───────▼──────┐ ┌─────▼────────┐
- │java.util.HashMap│ │LinkedHashMap│ │TreeMap       │ │ConcurrentHashMap│
- │(unsorted,      │ │(insertion/   │ │(sorted,      │ │(concurrent,     │
- │allows null K/V)│ │access-order) │ │NavigableMap)  │ │no null keys)    │
- └────────┬───────┘ └────┬─────────┘ └───────┬──────┘ └────┬─────────┘
-          │               │                  │               │
-          │               │                  │               │
-  ┌───────▼────────┐ ┌────▼─────────┐ ┌───────▼────────┐ ┌──▼────────┐
-  │WeakHashMap     │ │IdentityHashMap│ │EnumMap         │ │TreeMap     │
-  │(keys weak refs)│ │(== for keys)  │ │(enum keys, fast)│ │(as above)  │
-  └────────────────┘ └──────────────┘ └─────────────────┘ └────────────┘
+java.util.Map  → Interface (K, V)
+│
+├── HashMap
+│     • Unordered, allows one null key and multiple null values
+│     • Backed by hash table (array + linked list/tree)
+│     • Time: get/put/remove O(1) average, O(n) worst (due to hash collision)
+│     • Space: O(n)
+│     • Best for: General-purpose fast lookup; key-based data access
+│     • Notes: Keys must have proper hashCode() & equals() implementation
+│
+├── LinkedHashMap
+│     • Maintains insertion or access order (configurable)
+│     • Backed by doubly linked list + hash table
+│     • Time: O(1) for most operations
+│     • Space: O(n)
+│     • Best for: Predictable iteration order, LRU cache (override removeEldestEntry)
+│     • Notes: Slightly slower than HashMap due to order maintenance
+│
+├── TreeMap
+│     • Sorted by natural order or custom Comparator
+│     • Backed by Red-Black Tree
+│     • Time: get/put/remove O(log n)
+│     • Space: O(n)
+│     • Best for: Sorted keys, range queries, navigation (headMap, subMap, tailMap)
+│     • Notes: Does not allow null keys; implements SortedMap & NavigableMap
+│
+├── ConcurrentHashMap
+│     • Thread-safe hash map; supports full concurrency for reads and adjustable writes
+│     • Lock-free reads, segment/stripe-based writes (CAS in Java 8+)
+│     • Time: get/put/remove O(1) average
+│     • Space: O(n)
+│     • Best for: Multi-threaded environments; concurrent access without synchronization blocks
+│     • Notes: No null keys or values allowed
+│
+├── WeakHashMap
+│     • Keys stored with WeakReferences; entries auto-removed when keys are GC’d
+│     • Time: O(1) average
+│     • Space: O(n)
+│     • Best for: Caching, mappings where keys should not prevent garbage collection
+│     • Notes: May lose entries unpredictably if key gets collected
+│
+├── IdentityHashMap
+│     • Uses reference equality (==) instead of equals() for key comparison
+│     • Time: O(1) average
+│     • Space: O(n)
+│     • Best for: Object graph traversal, serialization frameworks, identity tracking
+│     • Notes: Does not obey Map equals() contract since key comparison uses ==
+│
+└── EnumMap
+      • Specialized for Enum keys; internally backed by array
+      • Time: O(1) for all operations
+      • Space: O(number of Enum constants)
+      • Best for: When keys are Enums; most efficient and compact
+      • Notes: Maintains natural order of enum constants, no null keys allowed
+
+ ----------------------------------------------------------------------------------------------
+| Goal                            | Recommended Map       | Reason                            |
+| ------------------------------- | --------------------- | --------------------------------- |
+| General-purpose fast map        | **HashMap**           | O(1) average lookup               |
+| Maintain insertion/access order | **LinkedHashMap**     | Predictable iteration             |
+| Sorted keys / range queries     | **TreeMap**           | Red-Black tree ordering           |
+| Thread-safe operations          | **ConcurrentHashMap** | High concurrency, lock-free reads |
+| Auto-remove when keys GC’d      | **WeakHashMap**       | Ideal for caches                  |
+| Compare keys by reference       | **IdentityHashMap**   | Uses `==` for identity comparison |
+| Enum-based keys                 | **EnumMap**           | Fastest and most memory-efficient |
+ ----------------------------------------------------------------------------------------------
 
