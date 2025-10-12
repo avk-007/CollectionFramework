@@ -35,3 +35,23 @@ Iterable
           │    └── DelayQueue
           │
           └── ConcurrentLinkedQueue
+
+ ----------------------------------------------------------------------------------------------------------------
+                        ┌────────────────────┐
+                        │     java.util.Map  │  <-- Interface (K,V)
+                        └────────┬───────────┘
+                                 │
+          ┌──────────────┬───────┴─────────┬──────────────┐
+          │              │                 │              │
+ ┌────────▼──────┐ ┌─────▼────────┐ ┌───────▼──────┐ ┌─────▼────────┐
+ │java.util.HashMap│ │LinkedHashMap│ │TreeMap       │ │ConcurrentHashMap│
+ │(unsorted,      │ │(insertion/   │ │(sorted,      │ │(concurrent,     │
+ │allows null K/V)│ │access-order) │ │NavigableMap)  │ │no null keys)    │
+ └────────┬───────┘ └────┬─────────┘ └───────┬──────┘ └────┬─────────┘
+          │               │                  │               │
+          │               │                  │               │
+  ┌───────▼────────┐ ┌────▼─────────┐ ┌───────▼────────┐ ┌──▼────────┐
+  │WeakHashMap     │ │IdentityHashMap│ │EnumMap         │ │TreeMap     │
+  │(keys weak refs)│ │(== for keys)  │ │(enum keys, fast)│ │(as above)  │
+  └────────────────┘ └──────────────┘ └─────────────────┘ └────────────┘
+

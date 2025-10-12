@@ -1,7 +1,5 @@
 package MapHashmap;
 
-import org.w3c.dom.Node;
-
 public class Hash {
 
     public static void main(String[] args) {

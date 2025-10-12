@@ -10,7 +10,7 @@ public class VectorDemo {
 //        Vector<Integer> vector=new Vector<>(6);
         Vector<Integer> vector=new Vector<>(6,3); //* by 3
         //capacity doubles when added new list in index
-//al vectors methods are  synchronised and thread safe an used for thread safety for single thread env
+//al vectors methods are  synchronised and thread safe and used for thread safety for single thread env
         vector.add(1);
         vector.add(1);
         vector.add(1);
